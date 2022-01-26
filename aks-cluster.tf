@@ -73,8 +73,8 @@ address_prefixes          = ["172.17.8.0/25"]
 #  }
 #}
 
-resource "local_file" "kubeconfig" {
-  depends_on   = [azurerm_kubernetes_cluster.akscluster]
-  filename     = "/tmp/kubeconfig"
-  content      = azurerm_kubernetes_cluster.akscluster.kube_config_raw
-}
+#resource "local_file" "kubeconfig" {
+#  depends_on   = [azurerm_kubernetes_cluster.akscluster]
+#  filename     = "/tmp/kubeconfig"
+#  content      = azurerm_kubernetes_cluster.akscluster.kube_config_raw
+#}
