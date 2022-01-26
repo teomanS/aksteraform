@@ -25,53 +25,53 @@ virtual_network_name    = "${azurerm_virtual_network.aksvnet.name}"
 address_prefixes          = ["172.17.8.0/25"]
 }
 
-resource "azurerm_kubernetes_cluster" "akscluster" {
-  name                = "aks-teo-cloud-terraform-poc"
-  location            = azurerm_resource_group.aksresourcegroup.location
-  resource_group_name = azurerm_resource_group.aksresourcegroup.name
-  dns_prefix          = "teo-cloud-terraform-poc-k8s"
+#resource "azurerm_kubernetes_cluster" "akscluster" {
+#  name                = "aks-teo-cloud-terraform-poc"
+#  location            = azurerm_resource_group.aksresourcegroup.location
+#  resource_group_name = azurerm_resource_group.aksresourcegroup.name
+#  dns_prefix          = "teo-cloud-terraform-poc-k8s"
 
-  addon_profile {
-    azure_policy {
-         enabled = true
-    }
+#  addon_profile {
+#    azure_policy {
+#         enabled = true
+#    }
 
-    open_service_mesh {
-        enabled = true
-    }    
-  }
+#    open_service_mesh {
+#        enabled = true
+#    }    
+#  }
 
-  default_node_pool {
-    name            = "default"
-    node_count      = 3
-    vm_size         = "Standard_D2_v2"
-    availability_zones  = ["1", "2", "3"]
-    os_disk_size_gb = 30
-    vnet_subnet_id = azurerm_subnet.aksdefaultsubnet.id
-  }
+#  default_node_pool {
+#    name            = "default"
+#    node_count      = 3
+#    vm_size         = "Standard_D2_v2"
+#    availability_zones  = ["1", "2", "3"]
+#    os_disk_size_gb = 30
+#    vnet_subnet_id = azurerm_subnet.aksdefaultsubnet.id
+#  }
 
-  identity {
-    type = "SystemAssigned"
-  }
+#  identity {
+#    type = "SystemAssigned"
+#  }
 
-  network_profile {
-    network_plugin     = "kubenet"
-    docker_bridge_cidr = "192.17.0.1/16"
-    dns_service_ip  = "10.0.0.35"
-    load_balancer_sku  =  "Standard"
-    outbound_type      = "loadBalancer"
-    pod_cidr           = "10.244.0.0/16"
-    service_cidr       = "10.0.0.0/16"
-  }
+#  network_profile {
+#    network_plugin     = "kubenet"
+#    docker_bridge_cidr = "192.17.0.1/16"
+#    dns_service_ip  = "10.0.0.35"
+#    load_balancer_sku  =  "Standard"
+#    outbound_type      = "loadBalancer"
+#    pod_cidr           = "10.244.0.0/16"
+#    service_cidr       = "10.0.0.0/16"
+#  }
 
-  role_based_access_control {
-    enabled = true
-  }
+#  role_based_access_control {
+#    enabled = true
+#  }
 
-  tags = {
-    environment = "poc"
-  }
-}
+#  tags = {
+#    environment = "poc"
+#  }
+#}
 
 resource "local_file" "kubeconfig" {
   depends_on   = [azurerm_kubernetes_cluster.akscluster]
